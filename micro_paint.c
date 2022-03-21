@@ -57,18 +57,32 @@ char *get_zone_information(FILE *ptr_file, t_zone *z)
 	int		ret;
 
 	map = NULL;
+	// get square information ---------------------------------
 	ret = fscanf(ptr_file, "%d %d %c\n", &z->width, &z->height, &z->back_char);
+
+	// check end of file --------------------------------------
 	if (ret == EOF) 
 		return (NULL);
+
+	// check if fscanf error ----------------------------------
 	if (ret != 3)
 		return (NULL);
+
+	// check square limit -------------------------------------
 	if (z->width <= 0 || z->width > 300 || z->height <= 0 || z->height > 300)
 		return (NULL);
+
+	// calcul total char-pixel --------------------------------
 	z->total = z->width * z->height;
+
+	// malloc map ---------------------------------------------
 	if ((map = (char *)malloc(z->total * sizeof(char))) == NULL)
 		return (NULL);
+
+	// init map background ------------------------------------
 	memset(map, z->back_char, z->total);
 
+	// --------------------------------------------------------
 	return (map);	
 }
 
